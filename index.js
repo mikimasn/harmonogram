@@ -100,6 +100,7 @@ app.use("/",(req,res)=>{
 
     res.status(404).send({code:0,message:"404 Not found"});
 })
-app.listen(port,()=>{
+var server_host = process.env.YOUR_HOST || '0.0.0.0';
+app.listen(port,server_host,()=>{
     console.log(`Listening on port ${port}`);
 })
