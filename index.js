@@ -10,15 +10,17 @@ const express = require("express")
 var app = express()
 const config = require("./config.json")
 const dbc  = new db()
-app.use(bodyParser());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 var port = process.env.PORT||config.port;
 app.use("/",(req,res,next)=>{
     res.set('Access-Control-Allow-Origin', 'http://localhost:8080');
     if(req.method=="OPTIONS"){
-
-    
-        res.set("Access-Control-Allow-Headers","authorization");}
-    next()
+        res.set("Access-Control-Allow-Headers","authorization");
+        res.sendStatus(204);
+    }
+    else
+        next()
 })
 app.get("/",(req,res)=>{
     res.status(200).send({code:0,message:"Working properly"})
@@ -60,6 +62,7 @@ app.delete("/logout",(req,res)=>{
         res.status(400).send({message:"You aren't loginned"})
 })
 app.post("/send",(req,res)=>{
+    console.log(req.body)
     if(req.body.content!==undefined){
         var webhook = new WebhookClient({
             url:process.env.WEBHOOK
@@ -101,6 +104,6 @@ app.use("/",(req,res)=>{
     res.status(404).send({code:0,message:"404 Not found"});
 })
 var server_host = '0.0.0.0';
-app.listen(port,server_host,()=>{
+app.listen(port,()=>{
     console.log(`Listening on port ${port}`);
 })

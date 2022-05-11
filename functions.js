@@ -30,6 +30,8 @@ export async function obtainoauth2(code,redirect,callback){
       callback(undefined)
    else{
      const string = response.scope;
+     console.log(response);
+     console.log(string);
      var tab = config.req_scope;
      var find = true;
      tab.forEach(ele=>{

@@ -2,7 +2,7 @@
     "port":2137,
     "client_secret":"",
     "client_id":"",
-    "ouath_url":"https://api.panel.local/login",
+    "ouath_url":"https://wistful-jazzy-care.glitch.me/login",
     "req_scope":["identify", "guilds.members.read"],
     "req_guild":{
         "is":true,
