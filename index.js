@@ -11,6 +11,7 @@ var app = express()
 const config = require("./config.json")
 const dbc  = new db()
 app.use(bodyParser());
+var port = process.env.PORT|config.port;
 app.use("/",(req,res,next)=>{
     res.set('Access-Control-Allow-Origin', 'http://localhost:8080');
     if(req.method=="OPTIONS"){
@@ -99,6 +100,6 @@ app.use("/",(req,res)=>{
 
     res.status(404).send({code:0,message:"404 Not found"});
 })
-app.listen(config.port,()=>{
-    console.log(`Listening on port ${config.port}`);
+app.listen(port,()=>{
+    console.log(`Listening on port ${port}`);
 })
