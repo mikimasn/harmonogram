@@ -2,7 +2,7 @@
     "port":2137,
     "client_secret":"",
     "client_id":"",
-    "ouath_url":"https://gp-harmonogram.glitch.me/login",
+    "ouath_url":"https://gp-harmonogram.herokuapp.com/login",
     "req_scope":["identify", "guilds.members.read"],
     "req_guild":{
         "is":true,
