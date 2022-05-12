@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 var port = process.env.PORT||config.port;
 app.use("/",(req,res,next)=>{
-    res.set('Access-Control-Allow-Origin', 'http://localhost:8080');
+    res.set('Access-Control-Allow-Origin', 'https://gp-harmonogram.herokuapp.com');
     if(req.method=="OPTIONS"){
         res.set("Access-Control-Allow-Headers","authorization");
         res.sendStatus(204);
