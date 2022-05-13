@@ -5,12 +5,14 @@ import { user, verifyuser } from "./users.js";
 import bodyParser from "body-parser";
 import { WebhookClient } from "discord.js";
 import fetch from "node-fetch";
+
 const require = createRequire(import.meta.url);
+
+const express = require("express");
+const config = require("./config.json");
+const dbc  = new db();
 require('dotenv').config();
-const express = require("express")
-var app = express()
-const config = require("./config.json")
-const dbc  = new db()
+var app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 var port = process.env.PORT||config.port;
