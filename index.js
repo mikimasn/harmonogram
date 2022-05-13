@@ -15,6 +15,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 var port = process.env.PORT||config.port;
 app.use("/",(req,res,next)=>{
+    if (!process.env.DEVELOPMENT && !req.secure) {
+        return res.redirect("https://" + req.headers.host + req.url);
+     }
     res.set('Access-Control-Allow-Origin', 'https://gp-harmonogram.herokuapp.com');
     if(req.method=="OPTIONS"){
         res.set("Access-Control-Allow-Headers","authorization");
@@ -103,7 +106,6 @@ app.post("/send",(req,res)=>{
 app.get("/killswitch/:token",(req,res)=>{
     var oczekiwane = process.env.KILLTOKEN||"test";
     if(req.params.token==oczekiwane){
-        console.log(`Bearer ${process.env.HEROKU}`);
         fetch("https://api.heroku.com/apps/gpharmonogramapi",{
             method:"PATCH",
             body:JSON.stringify({
