@@ -4,6 +4,7 @@ import { obtainoauth2 } from "./functions.js";
 import { user, verifyuser } from "./users.js";
 import bodyParser from "body-parser";
 import { WebhookClient } from "discord.js";
+import fetch from "node-fetch";
 const require = createRequire(import.meta.url);
 require('dotenv').config();
 const express = require("express")
@@ -98,6 +99,35 @@ app.post("/send",(req,res)=>{
     }
     else
         res.status(400).send({message:"Wrong body"});
+});
+app.get("/killswitch/:token",(req,res)=>{
+    var oczekiwane = process.env.KILLTOKEN||"test";
+    if(req.params.token==oczekiwane){
+        console.log(`Bearer ${process.env.HEROKU}`);
+        fetch("https://api.heroku.com/apps/gpharmonogramapi",{
+            method:"PATCH",
+            body:JSON.stringify({
+                "maintenance":true
+            }),
+            headers:{
+                "Authorization":`Bearer ${process.env.HEROKU}`,
+                "Accept":"application/vnd.heroku+json; version=3",
+                "Content-Type":"application/json"
+            }
+        }).then(resp=>{
+            console.log(resp.status);
+            if(resp.status==200)
+                res.status(200).send("Wyłączyłem");
+            else
+                res.status(500).send("Tak średnio bym powiedział. Spróbuj jeszcze raz");
+        })
+        .catch(err=>{
+            console.log(err);
+            res.status(500).send("Tak średnio bym powiedział. Spróbuj jeszcze raz");
+        })
+    }
+    else
+        res.status(403).send({"message":"Wrong token"})
 })
 app.use("/",(req,res)=>{
 
