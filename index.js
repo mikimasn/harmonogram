@@ -18,7 +18,7 @@ app.use("/",(req,res,next)=>{
     if (req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto']!="https") {
         return res.redirect("https://" + req.headers.host + req.url);
      }
-    res.set('Access-Control-Allow-Origin', 'https://gp-harmonogram.herokuapp.com');
+    res.set('Access-Control-Allow-Origin', '*');
     if(req.method=="OPTIONS"){
         res.set("Access-Control-Allow-Headers","authorization");
         res.sendStatus(204);
