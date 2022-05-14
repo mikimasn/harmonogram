@@ -105,12 +105,21 @@ app.post("/send",(req,res)=>{
 });
 app.post("/sendembed",(req,res)=>{
     if(req.body.title&&req.body.color&&req.body.desc){
-        var fields = req.body.fields.split("},")||[];
-        for(var i=0;i<fields.length-1;i++){
-            fields[i]+="}"
+        var fields = req.body.fields||[];
+        if(req.body.fields){
+            fields = fields.replaceAll("\\","");
+            fields = fields.substr(1,fields.length-2);
+
+            fields = fields.split("},")
+        }
+
+        for(var i=0;i<fields.length;i++){
+            if(i+1!=fields.length)
+                fields[i]+="}";
+            console.log(fields[i]);
             fields[i]=JSON.parse(fields[i])
         }
-            
+        console.log(fields+" "+typeof(fields));
         var embed = new MessageEmbed()
         .setTitle(req.body.title)
         .setColor(req.body.color)
