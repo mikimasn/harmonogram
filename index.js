@@ -106,7 +106,7 @@ app.post("/send",(req,res)=>{
 app.post("/sendembed",(req,res)=>{
     if(req.body.title&&req.body.color&&req.body.desc){
         var fields = req.body.fields.split("},")||[];
-        for(i=0;i<fields.length;i++){
+        for(var i=0;i<fields.length;i++){
             fields[i]+="}"
             fields[i]=JSON.parse(fields[i])
         }
