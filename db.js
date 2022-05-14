@@ -60,7 +60,6 @@ export class db{
         if(guild===undefined)
             resolve(undefined);
     }
-    console.log(config.whitelist.find(ele=>ele==user.id))
     if(config.whitelist.find(ele=>ele==user.id)){
     this.#db.run(`INSERT INTO "main"."sessions"("token","id") VALUES (?,?);`,[hash,user.id],err=>{
         if(err){
