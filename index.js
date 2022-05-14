@@ -3,7 +3,7 @@ import { db } from "./db.js";
 import { obtainoauth2 } from "./functions.js";
 import { user, verifyuser } from "./users.js";
 import bodyParser from "body-parser";
-import { WebhookClient } from "discord.js";
+import { MessageEmbed, WebhookClient } from "discord.js";
 import fetch from "node-fetch";
 const require = createRequire(import.meta.url);
 require('dotenv').config();
@@ -103,6 +103,45 @@ app.post("/send",(req,res)=>{
     else
         res.status(400).send({message:"Wrong body"});
 });
+app.post("sendembed",(req,res)=>{
+    if(req.body.title&&req.body.color&&req.body.desc){
+        var fields = req.body.fields||[];
+        var embed = new MessageEmbed()
+        .setTitle(req.body.title)
+        .setColor(req.body.color)
+        .setDescription(req.body.desc)
+        .setFields(fields);
+        verifyuser(req.headers["authorization"],dbc).then(async auth=>{
+            if(auth.auth){
+                var webhook = new WebhookClient({
+                    url:process.env.WEBHOOK
+                });
+                var us = new user(auth.id,dbc.dbc);
+                var uso = await us.getuser();
+                webhook.send({
+                    embeds:[embed],
+                    username:uso["nick_guild"],
+                    allowedMentions:{
+                        parse:[],
+                        roles:[config.role]
+                    },
+                    avatarURL:`https://cdn.discordapp.com/avatars/${uso.id}/${uso["image_url"]}.png`
+                }).then(ok=>{
+                    console.log(ok)
+                    res.sendStatus(204);
+                })
+                .catch(err=>{
+                    console.error(err);
+                    res.sendStatus(500);
+                })
+            }
+            else
+                res.status(401).send({message:"Unauthorized"});
+        })
+    }
+    else
+        res.status(400).send({message:"Wrong body"});
+})
 app.get("/killswitch/:token",(req,res)=>{
     var oczekiwane = process.env.KILLTOKEN||"test";
     if(req.params.token==oczekiwane){
