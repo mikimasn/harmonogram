@@ -108,8 +108,10 @@ app.post("/sendembed",(req,res)=>{
         var fields = req.body.fields||[];
         if(req.body.fields){
             fields = fields.replaceAll("\\","");
-            fields = fields.substr(1,fields.length-2);
-
+            if(fields[0]=="\"")
+                fields=fields.substr(1);
+            if(fields[fields.length-1]=="\"")
+                fields=fields.substr(0,fields.length-1);
             fields = fields.split("},")
         }
 
