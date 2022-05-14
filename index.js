@@ -103,7 +103,7 @@ app.post("/send",(req,res)=>{
     else
         res.status(400).send({message:"Wrong body"});
 });
-app.post("sendembed",(req,res)=>{
+app.post("/sendembed",(req,res)=>{
     if(req.body.title&&req.body.color&&req.body.desc){
         var fields = req.body.fields||[];
         var embed = new MessageEmbed()
