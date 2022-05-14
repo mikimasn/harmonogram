@@ -106,7 +106,7 @@ app.post("/send",(req,res)=>{
 app.post("/sendembed",(req,res)=>{
     if(req.body.title&&req.body.color&&req.body.desc){
         var fields = req.body.fields||[];
-        console.log(fields);
+        console.log(typeof(fields));
         var embed = new MessageEmbed()
         .setTitle(req.body.title)
         .setColor(req.body.color)
