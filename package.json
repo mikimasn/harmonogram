@@ -5,6 +5,7 @@
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.1",
     "express": "^4.17.3",
+    "express-rate-limit": "^6.4.0",
     "express-session": "^1.17.2",
     "node-fetch": "^3.2.3",
     "sqlite3": "^5.0.5"
@@ -15,7 +16,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"node index.js"
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",

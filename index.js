@@ -5,14 +5,22 @@ import { user, verifyuser } from "./users.js";
 import bodyParser from "body-parser";
 import { MessageEmbed, WebhookClient } from "discord.js";
 import fetch from "node-fetch";
+import { rateLimit } from "express-rate-limit";
 
 const require = createRequire(import.meta.url);
 
+const limiter = rateLimit({
+	windowMs: 10 * 60 * 1000, // 10 minutes
+	max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: true, // Disable the `X-RateLimit-*` headers
+})
 const express = require("express");
 const config = require("./config.json");
 const dbc  = new db();
 require('dotenv').config();
 var app = express();
+app.use(limiter);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 var port = process.env.PORT||config.port;
@@ -116,7 +124,8 @@ app.post("/sendembed",(req,res)=>{
                 fields=fields.substr(0,fields.length-1);
             fields = fields.split("},")
         }
-
+        if(fields.length>25)
+            return res.send(400).send({message:"You can send only 25 fields"})
         for(var i=0;i<fields.length;i++){
             if(i+1!=fields.length)
                 fields[i]+="}";
