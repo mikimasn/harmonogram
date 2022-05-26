@@ -50,6 +50,7 @@ result.rows.forEach(async ele=>{
 /**
  * 
  * @param {db} dbc 
+ * 
  */
 export async function revokelongtermtoken(token,dbc){
     await pool.query("Delete from sessions where token=$1",[token]);
