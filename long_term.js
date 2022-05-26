@@ -3,12 +3,14 @@ import { db } from "./db.js";
 import { oauth2 } from "./oauth2.js";
 const require = createRequire(import.meta.url);
 const { Pool, Client } = require('pg');
+console.log("Żyje")
 if(process.env.DATABASE_URL)
     var pool = new Client({
         connectionString:process.env.DATABASE_URL 
     })
 else
     var pool=new Pool()
+console.log("Żyje")
 require('dotenv').config();
 /**
  * 

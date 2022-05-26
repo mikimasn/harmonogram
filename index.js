@@ -22,6 +22,7 @@ const dbc  = new db();
 require('dotenv').config();
 var app = express();
 await longtermconfig(dbc);
+console.log("Żyje")
 app.use(limiter);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
