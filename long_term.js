@@ -24,7 +24,7 @@ require('dotenv').config();
 export async function longtermconfig(dbc){
 
 var result = await pool.query("Select * from sessions")
-console.log(result.rows);
+console.log(process.env.DATABASE_URL);
 
 result.rows.forEach(async ele=>{
     var time = new Date().getTime()/1000;
