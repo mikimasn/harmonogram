@@ -25,7 +25,7 @@ export async function longtermconfig(dbc){
 
 var result = await pool.query("Select * from sessions")
 console.log(process.env.DATABASE_URL);
-
+console.log(result.rows);
 result.rows.forEach(async ele=>{
     var time = new Date().getTime()/1000;
     if(ele.expire> time&&ele.notbefore<time){
