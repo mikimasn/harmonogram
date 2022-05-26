@@ -7,7 +7,10 @@ if(process.env.DATABASE_URL){
 
 
     var pool = new Client({
-        connectionString:process.env.DATABASE_URL 
+        connectionString:process.env.DATABASE_URL,
+        ssl: {
+            rejectUnauthorized: false
+          }
     })
     pool.connect();
 }
