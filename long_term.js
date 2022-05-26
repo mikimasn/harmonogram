@@ -3,11 +3,14 @@ import { db } from "./db.js";
 import { oauth2 } from "./oauth2.js";
 const require = createRequire(import.meta.url);
 const { Pool, Client } = require('pg');
+if(process.env.DATABASE_URL){
 
-if(process.env.DATABASE_URL)
+
     var pool = new Client({
         connectionString:process.env.DATABASE_URL 
     })
+    pool.connect();
+}
 else
     var pool=new Pool()
 require('dotenv').config();
@@ -18,7 +21,8 @@ require('dotenv').config();
 export async function longtermconfig(dbc){
 
 var result = await pool.query("Select * from sessions")
-console.log("Żyje")
+
+
 result.rows.forEach(async ele=>{
     var time = new Date().getTime()/1000;
     if(ele.expire> time&&ele.notbefore<time){
