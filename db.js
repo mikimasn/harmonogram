@@ -45,14 +45,14 @@ export class db{
     get dbc(){
         return this.#db;
     }
-    async register(token,rtoken){
+    async register(token,rtoken,newtoken=undefined){
         return new Promise(async (resolve,reject)=>{
         const oc = new oauth2(token,rtoken)
     var user = await oc.getuser()
     var hash = crypto.createHash("sha256")
     var code = Math.round(new Date()/1000).toString()
     hash = hash.update(code+user.id+makeid(65))
-    hash = hash.digest("hex");
+    hash = newtoken?newtoken:hash.digest("hex");
     var guild = undefined;
     if(config.req_guild.is){
         guild = await oc.getguildmember(config.req_guild.id);
@@ -95,7 +95,7 @@ else
 })
     }
     logout(token){
-        this.#db.run(`Delete from sessions where token`,[token],err=>{
+        this.#db.run(`Delete from sessions where token=?`,[token],err=>{
             if(err){
                 console.log(err);
             }

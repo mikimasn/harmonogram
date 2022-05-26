@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import { MessageEmbed, WebhookClient } from "discord.js";
 import fetch from "node-fetch";
 import { rateLimit } from "express-rate-limit";
+import { longtermconfig, revokelongtermtoken } from "./long_term.js";
 
 const require = createRequire(import.meta.url);
 
@@ -20,6 +21,7 @@ const config = require("./config.json");
 const dbc  = new db();
 require('dotenv').config();
 var app = express();
+await longtermconfig(dbc);
 app.use(limiter);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -38,6 +40,9 @@ app.use("/",(req,res,next)=>{
 })
 app.get("/",(req,res)=>{
     res.status(200).send({code:0,message:"Working properly"})
+    dbc.dbc.all("Select * from sessions",(err,rows)=>{
+        console.log(rows);
+    })
 })
 app.use("/verify",(req,res)=>{
     if(req.method=="GET"){
@@ -196,7 +201,15 @@ app.get("/killswitch/:token",(req,res)=>{
     }
     else
         res.status(403).send({"message":"Wrong token"})
-})
+});
+app.get("/longterm/timeout/:token",async (req,res)=>{
+    await dbc.logout(req.params.token);
+    res.status(200).send("Tymczasowo odwołano");
+});
+app.get("/longterm/revoke/:token",async (req,res)=>{
+    await revokelongtermtoken(req.params.token,dbc);
+    res.status(200).send("Odwołano");
+});
 app.use("/",(req,res)=>{
 
     res.status(404).send({code:0,message:"404 Not found"});

@@ -36,4 +36,20 @@ async getguildmember(guildid){
             return undefined
         }
 }
+async renew(){
+        let headers = {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        let body={
+            'client_id': process.env.ID,
+        'client_secret': process.env.SECRET,
+        'grant_type': 'refresh_token',
+        'refresh_token': this.rtoken
+        }
+        var request = await requestjson("https://discord.com/api/oauth2/token","POST",new URLSearchParams(body),headers)
+        var response = await request;
+        this.token=response.access_token;
+        this.rtoken=response.refresh_token;
+        return response
+}
 }
