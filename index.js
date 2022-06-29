@@ -19,6 +19,7 @@ const limiter = rateLimit({
 })
 const express = require("express");
 const config = require("./config.json");
+globalThis.config = config;
 const dbc  = new db();
 require('dotenv').config();
 var app = express();
