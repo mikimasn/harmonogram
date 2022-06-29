@@ -14,9 +14,6 @@ if(process.env.DATABASE_URL){
     })
     pool.connect();
 }
-else
-    var pool=new Pool()
-require('dotenv').config();
 /**
  * 
  * @param {db} dbc 

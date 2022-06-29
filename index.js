@@ -21,7 +21,8 @@ const config = require("./config.json");
 const dbc  = new db();
 require('dotenv').config();
 var app = express();
-await longtermconfig(dbc);
+if(process.env.DATABASE_URL)
+    await longtermconfig(dbc);
 console.log("Żyje")
 app.use(limiter);
 app.use(bodyParser.urlencoded({ extended: false }));
