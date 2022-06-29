@@ -1,0 +1,16 @@
+{
+    "port":2137,
+    "client_secret":"",
+    "client_id":"",
+    "ouath_url":"https://gp-harmonogram.herokuapp.com/login",
+    "req_scope":["identify", "guilds.members.read"],
+    "req_guild":{
+        "is":true,
+        "id":"695225372265939015"
+    },
+    "default_perm":0,
+    "anon_perm":0,
+    "superadmin":false,
+    "role":"953634085950062592",
+    "whitelist":["510482750458036224","553217504290406404","696366045883138068","495626750630559744","673822351376515107"]
+}
