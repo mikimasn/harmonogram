@@ -7,6 +7,7 @@ import { MessageEmbed, WebhookClient } from "discord.js";
 import fetch from "node-fetch";
 import { rateLimit } from "express-rate-limit";
 import { longtermconfig, revokelongtermtoken } from "./long_term.js";
+import contentmanager from "./editmessages/content.js";
 
 const require = createRequire(import.meta.url);
 
@@ -212,6 +213,7 @@ app.get("/longterm/revoke/:token",async (req,res)=>{
     await revokelongtermtoken(req.params.token,dbc);
     res.status(200).send("Odwołano");
 });
+contentmanager(app,dbc);
 app.use("/",(req,res)=>{
 
     res.status(404).send({code:0,message:"404 Not found"});
