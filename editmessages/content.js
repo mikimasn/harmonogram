@@ -42,7 +42,7 @@ export default function(app,dbc){
     app.patch("/content/:id",async (req,res)=>{
         var obj = await verifyuser(req.headers["authorization"],dbc)
         if(obj.auth){
-            console.log(`fetching ${req.params.id} by ${obj.id}`);
+            console.log(`editing ${req.params.id} by ${obj.id}`);
             var webhook = new WebhookClient({
                 url:process.env.WEBHOOK
             });
@@ -73,7 +73,7 @@ export default function(app,dbc){
     app.delete("/content/:id",async (req,res)=>{
         var obj = await verifyuser(req.headers["authorization"],dbc)
         if(obj.auth){
-            console.log(`fetching ${req.params.id} by ${obj.id}`);
+            console.log(`deleting ${req.params.id} by ${obj.id}`);
             var webhook = new WebhookClient({
                 url:process.env.WEBHOOK
             });
