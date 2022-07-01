@@ -35,6 +35,7 @@ app.use("/",(req,res,next)=>{
         return res.redirect("https://" + req.headers.host + req.url);
      }
     res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods','*')
     if(req.method=="OPTIONS"){
         res.set("Access-Control-Allow-Headers","authorization");
         res.sendStatus(204);
